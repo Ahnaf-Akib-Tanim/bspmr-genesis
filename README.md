@@ -1,7 +1,7 @@
 # BSPMR — Main Website Prototype
 
 A redesign prototype for the main website of the **Bangladesh Society of Physical Medicine & Rehabilitation** ([bspmr.org](https://bspmr.org)).
-It shares its visual language with the [BSPMRCON 2026 conference prototype](https://mkrashed.github.io/bspmr-prototype/): navy and signal red, Sora and Manrope type, and the ECG-line motif.
+It has its own visual identity, separate from the [BSPMRCON 2026 conference prototype](https://mkrashed.github.io/bspmr-prototype/): deep teal with mint highlights and a warm coral accent that echoes the red of the BSPMR logo, Plus Jakarta Sans with Instrument Serif italic accents, an arched hero photo, and a scrolling strip of rehabilitation specialties.
 
 ## Pages
 
@@ -37,7 +37,7 @@ To publish it on GitHub Pages, go to **Settings → Pages**, choose **Deploy fro
 
 ```
 assets/
-  css/style.css      design tokens and all component styles
+  css/style.css      theme tokens (colours, type, radii) and all component styles
   js/site.js         shared header, footer, icons, card renderers, lightbox, modal
   js/data.js         content snapshot (members, events, notices, research, journal)
   img/               logo, gallery, journal covers, publication thumbnails

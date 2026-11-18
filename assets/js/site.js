@@ -254,7 +254,7 @@
       '<div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">' + (conf ? '<span class="tag tag-red">National Conference</span>' : '<span class="tag">Workshop</span>') + '<span class="tag tag-amber">' + (ev.days > 1 ? ev.days + ' days' : '1 day') + '</span></div><h3>' + esc(ev.name) + '</h3></div></div>' +
       '<div class="ev-body">' + esc(desc.length > 150 ? desc.slice(0, 150).replace(/\s+\S*$/, '') + '…' : desc) +
       '<div class="ev-loc">' + icon('pin') + '<span>' + esc(ev.loc || 'Shaheed Dr. Milon Hall & Extension, BMU, Shahbag') + '</span></div>' + seats + '</div>' +
-      '<div class="ev-foot"><button class="link-arrow" style="background:none;border:0;cursor:pointer;padding:0;font-size:14.5px' + (conf ? ';color:#FFB4AC' : '') + '" data-ev="' + ev.id + '">Details' + icon('arrow') + '</button>' + cta + '</div></article>';
+      '<div class="ev-foot"><button class="link-arrow" style="background:none;border:0;cursor:pointer;padding:0;font-size:14.5px' + (conf ? ';color:#A7F3DF' : '') + '" data-ev="' + ev.id + '">Details' + icon('arrow') + '</button>' + cta + '</div></article>';
   }
   function eventModal(ev) {
     var d = parseD(ev.date), conf = isConf(ev), left = seatsLeft(ev), past = evPast(ev);
