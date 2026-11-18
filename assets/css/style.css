@@ -1,6 +1,6 @@
 /* BSPMR main site prototype — shared styles
    Theme: deep teal ink, clinical teal, mint highlights and a warm coral accent
-   (echoing the red of the BSPMR logo). Plus Jakarta Sans + Instrument Serif. */
+   (echoing the red of the BSPMR logo). Plus Jakarta Sans. */
 
 :root{
   --navy:#172C30; --navy-2:#101F22; --navy-3:#213A3E;
@@ -16,7 +16,6 @@
   --shadow-lg:0 30px 60px -28px rgba(11,46,51,.45);
   --wrap:1240px;
   --f-head:'Plus Jakarta Sans',system-ui,sans-serif; --f-body:'Plus Jakarta Sans',system-ui,sans-serif;
-  --f-serif:'Instrument Serif',Georgia,serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -24,7 +23,9 @@ body{margin:0;font-family:var(--f-body);color:var(--ink);background:var(--bg);li
 img{max-width:100%;height:auto;display:block}
 a{color:var(--red-d)} a:hover{color:var(--navy)}
 h1,h2,h3,h4{font-family:var(--f-head);line-height:1.15;margin:0;letter-spacing:-.5px}
-h1 em,h2 em,.serif{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:0;font-size:1.1em;line-height:1}
+h1 em,h2 em{font-style:normal;color:var(--red)}
+.hero h1 em,.phero h1 em,.section-navy h2 em,.con h2 em{color:var(--mint)}
+.cta-band h2 em{color:#fff}
 p{margin:0}
 button,input,select,textarea{font-family:inherit;font-size:inherit}
 :focus-visible{outline:3px solid rgba(14,140,127,.45);outline-offset:2px}
@@ -218,7 +219,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .stat::after{content:"";position:absolute;left:22px;right:22px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--grad)}
 .stat:nth-child(even)::after{background:var(--grad-warm)}
 .stat b{font-family:var(--f-head);font-size:clamp(28px,3vw,40px);font-weight:800;color:var(--navy);display:block;line-height:1;letter-spacing:-1.2px}
-.stat b i{font-family:var(--f-serif);font-weight:400;color:var(--warm);letter-spacing:0}
+.stat b i{font-style:normal;color:var(--warm)}
 .stat span{display:block;margin-top:8px;font-size:14px;color:var(--muted);font-weight:700}
 @media (max-width:900px){.stats-in{grid-template-columns:repeat(2,1fr);gap:10px}.stat:last-child{grid-column:1/-1}}
 
@@ -227,7 +228,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .con::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 20% 0%,#000 20%,transparent 72%);mask-image:radial-gradient(ellipse at 20% 0%,#000 20%,transparent 72%)}
 .con>*{position:relative}
 .con h2{font-size:clamp(26px,3vw,38px);font-weight:800;letter-spacing:-1px;margin:14px 0 10px}
-.con h2 span{color:var(--mint);font-family:var(--f-serif);font-style:italic;font-weight:400;font-size:1.1em}
+.con h2 span{color:var(--mint)}
 .con p{color:#C3D5D1}
 .con-meta{display:flex;gap:22px;flex-wrap:wrap;margin:18px 0 26px;font-size:14.5px;color:#DCE9E6;font-weight:700}
 .con-meta span{display:inline-flex;gap:8px;align-items:center}
@@ -307,7 +308,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .pillar{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;position:relative;overflow:hidden}
 .pillar h3{font-size:18px;margin:16px 0 8px}
 .pillar p{color:var(--muted);font-size:14.5px}
-.pillar-n{position:absolute;right:18px;top:6px;font-family:var(--f-serif);font-style:italic;font-weight:400;font-size:56px;color:#DCEBE6}
+.pillar-n{position:absolute;right:18px;top:12px;font-family:var(--f-head);font-weight:800;font-size:44px;color:#E3EEEA}
 
 /* finder widget */
 .finder{background:#fff;border-radius:var(--r-lg);padding:32px;box-shadow:var(--shadow-lg);color:var(--navy)}
@@ -513,5 +514,5 @@ select.field{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmln
 .marq-t{display:flex;width:max-content;animation:marquee 46s linear infinite}
 .marq:hover .marq-t{animation-play-state:paused}
 .marq-t span{display:inline-flex;align-items:center;gap:26px;padding-right:26px;font-family:var(--f-head);font-weight:800;font-size:clamp(20px,2.4vw,30px);color:var(--navy);white-space:nowrap;letter-spacing:-.6px}
-.marq-t span:nth-child(even){font-family:var(--f-serif);font-style:italic;font-weight:400;color:var(--red-d);letter-spacing:0;font-size:clamp(22px,2.7vw,34px)}
-.marq-t span::after{content:"\2726";font-family:var(--f-body);font-style:normal;font-size:.55em;color:var(--warm)}
+.marq-t span:nth-child(even){color:var(--red)}
+.marq-t span::after{content:"\2726";font-size:.55em;color:var(--warm)}
