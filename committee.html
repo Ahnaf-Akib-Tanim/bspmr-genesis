@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive Committee — BSPMR</title>
+<meta name="description" content="BSPMR Executive Committee and EC Election 2026 — schedule, forms and voter list.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="committee">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="about.html">About</a><span aria-hidden="true">/</span><span>Executive Committee</span></nav>
+    <h1 class="in2">Executive <em>Committee</em></h1>
+    <p class="in3">BSPMR is governed by an elected Executive Committee. The EC Election 2026 is under way — the new committee will be listed here once results are declared.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="con rv" style="grid-template-columns:1.3fr .7fr">
+      <div>
+        <span class="hero-badge" style="font-size:12px"><span class="ping-dot"></span>ELECTION IN PROGRESS</span>
+        <h2>BSPMR Executive Committee <span>Election 2026</span></h2>
+        <p>The official schedule, voter list and forms were published on 14 October 2026. Eligible members can download the documents below.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="electionDocs"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">Structure</span><h2>Committee positions</h2><p>Office-bearers for the new term will appear here with photos and profiles after the election results are announced.</p></div></div>
+    <div class="grid g4" id="ecGrid"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">Our foundations</span><h2>Earliest life members</h2><p>The senior physiatrists holding BSPMR life-membership numbers LM-1 to LM-8.</p></div><a class="link-arrow" href="members.html">Full member directory <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="grid g4" id="founders"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var docs = D.notices.filter(function (n) { return /Election/i.test(n.desc + n.title) && n.file; });
+  document.getElementById('electionDocs').innerHTML = docs.map(function (n) {
+    return '<a class="btn btn-ghost-light" style="justify-content:space-between;white-space:normal;text-align:left" href="' + B.esc(n.file) + '" target="_blank" rel="noopener"><span>' + B.esc(n.title) + '</span>' + B.icon('download') + '</a>';
+  }).join('');
+  var roles = [['President', 1], ['Vice President', 3], ['Secretary General', 1], ['Treasurer', 1], ['Joint Secretary', 2], ['Organising Secretary', 1], ['Scientific Secretary', 1], ['Executive Member', 6]];
+  document.getElementById('ecGrid').innerHTML = roles.map(function (r, i) {
+    return '<div class="mc rv" style="transition-delay:' + i * 40 + 'ms"><span class="av" style="width:84px;height:84px;margin-bottom:14px;background:var(--bg);color:var(--muted-2)">' + B.icon('user', ' width="34" height="34"') + '</span><h3>' + r[0] + '</h3><div class="i">' + (r[1] > 1 ? r[1] + ' posts · ' : '') + 'To be announced</div><span class="tag tag-amber" style="margin-top:12px">Election 2026</span></div>';
+  }).join('');
+  document.getElementById('founders').innerHTML = D.life.filter(function (m) { return m.lm && m.lm <= 8; }).map(B.memberCard).join('');
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

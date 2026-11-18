@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Member Login — BSPMR</title>
+<meta name="description" content="Log in to the BSPMR member portal with your phone number.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="login">
+<div id="site-header"></div>
+
+<main id="main">
+
+
+<section class="auth">
+  <div class="auth-side">
+    <img src="assets/img/bspmr-logo.png" alt="" width="84" height="84" style="border-radius:50%;background:#fff;margin-bottom:26px">
+    <span class="eyebrow" style="color:var(--coral)">Member portal</span>
+    <h1 style="font-size:clamp(30px,3.6vw,44px);font-weight:800;letter-spacing:-1px;margin:12px 0 16px">Welcome to <span style="color:#FF5A50">BSPMR</span></h1>
+    <p style="color:#CBD5E1;font-size:17px;max-width:460px">One login for everything — membership, event registration, certificates, research submissions and payments.</p>
+    <ul class="check-list" style="margin-top:28px;color:#E2E8F0">
+      <li>Register for workshops &amp; BSPMRCON</li>
+      <li>Renew or upgrade your membership</li>
+      <li>Download certificates &amp; receipts</li>
+      <li>Submit research &amp; manage your directory profile</li>
+    </ul>
+  </div>
+  <div class="auth-main">
+    <div class="auth-box">
+      <div id="nextNote" class="tag tag-red" style="display:none;margin-bottom:16px"></div>
+      <form id="step1">
+        <h2 style="font-size:28px">Log in or sign up</h2>
+        <p class="muted" style="margin:8px 0 26px">Enter your mobile number — we’ll send a one-time code.</p>
+        <label class="lbl" for="ph">Mobile number</label>
+        <div style="display:flex;gap:10px"><span class="field" style="width:auto;display:inline-flex;align-items:center;font-weight:800">+88</span><input class="field" id="ph" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX" maxlength="11" required></div>
+        <p id="phErr" class="muted" style="color:var(--red);font-size:13.5px;margin-top:8px;display:none">Enter a valid 11-digit Bangladeshi mobile number.</p>
+        <button class="btn btn-red" type="submit" style="width:100%;min-height:52px;margin-top:20px">Continue</button>
+      </form>
+      <form id="step2" style="display:none">
+        <button type="button" id="back" class="link-arrow" style="background:none;border:0;padding:0;cursor:pointer;margin-bottom:18px">← Change number</button>
+        <h2 style="font-size:28px">Enter the code</h2>
+        <p class="muted" style="margin:8px 0 26px">We sent a 4-digit code to <b id="phShow"></b>.</p>
+        <div class="otp" id="otp"><input aria-label="Digit 1" maxlength="1" inputmode="numeric"><input aria-label="Digit 2" maxlength="1" inputmode="numeric"><input aria-label="Digit 3" maxlength="1" inputmode="numeric"><input aria-label="Digit 4" maxlength="1" inputmode="numeric"></div>
+        <button class="btn btn-red" type="submit" style="width:100%;min-height:52px;margin-top:22px">Verify &amp; continue</button>
+        <p class="muted" style="font-size:13.5px;margin-top:14px;text-align:center">Prototype: any 4 digits will work.</p>
+      </form>
+      <p class="muted" style="font-size:14px;margin-top:30px;text-align:center">Not a member yet? <a href="membership.html">See membership options</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var next = B.qs('next'), note = document.getElementById('nextNote'), msg = '';
+  var m = /^event-(\d+)$/.exec(next);
+  if (m) { var ev = D.events.filter(function (e) { return String(e.id) === m[1]; })[0]; if (ev) msg = 'Log in to register for: ' + ev.name; }
+  else if (/^membership/.test(next)) msg = 'Log in to start your ' + (next === 'membership-life' ? 'Life Membership ' : next === 'membership-general' ? 'General Membership ' : 'membership ') + 'application';
+  else if (next === 'research-submit') msg = 'Log in to submit your research';
+  else if (next === 'journal-submit') msg = 'Log in to submit a manuscript to BJPMR';
+  if (msg) { note.textContent = msg; note.style.display = 'inline-flex'; }
+  var s1 = document.getElementById('step1'), s2 = document.getElementById('step2'), ph = document.getElementById('ph');
+  ph.oninput = function () { ph.value = ph.value.replace(/\D/g, ''); };
+  s1.onsubmit = function (e) {
+    e.preventDefault();
+    if (!/^01[3-9]\d{8}$/.test(ph.value)) { document.getElementById('phErr').style.display = 'block'; ph.focus(); return; }
+    document.getElementById('phErr').style.display = 'none';
+    document.getElementById('phShow').textContent = '+88 ' + ph.value;
+    s1.style.display = 'none'; s2.style.display = 'block'; s2.querySelector('input').focus();
+  };
+  document.getElementById('back').onclick = function () { s2.style.display = 'none'; s1.style.display = 'block'; ph.focus(); };
+  var boxes = s2.querySelectorAll('.otp input');
+  boxes.forEach(function (b, i) {
+    b.oninput = function () { b.value = b.value.replace(/\D/g, ''); if (b.value && boxes[i + 1]) boxes[i + 1].focus(); };
+    b.onkeydown = function (e) { if (e.key === 'Backspace' && !b.value && boxes[i - 1]) boxes[i - 1].focus(); };
+  });
+  s2.onsubmit = function (e) {
+    e.preventDefault();
+    var code = Array.prototype.map.call(boxes, function (b) { return b.value; }).join('');
+    if (code.length < 4) { B.toast('Enter all 4 digits.'); return; }
+    B.toast('Verified — the member portal is outside this prototype’s scope.');
+  };
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

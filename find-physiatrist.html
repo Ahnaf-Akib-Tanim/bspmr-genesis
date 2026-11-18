@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find a Physiatrist — BSPMR</title>
+<meta name="description" content="Find a BSPMR physiatrist (PM&amp;R specialist) in Bangladesh by division, name or hospital.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="find">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="membership.html">Members</a><span aria-hidden="true">/</span><span>Find a Physiatrist</span></nav>
+    <h1 class="in2">Find a <em>physiatrist</em> near you</h1>
+    <p class="in3">Search PM&amp;R specialists registered with BSPMR by division, name or hospital.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section" style="padding-top:50px">
+  <div class="wrap" style="display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:start" id="fpLayout">
+    <aside style="position:sticky;top:100px;display:grid;gap:18px">
+      <form class="card" id="fpForm" style="display:grid;gap:14px">
+        <h3 style="font-size:18px">Search filters</h3>
+        <div><label class="lbl" for="fpq">Name or hospital</label><div class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="fpq" type="search" placeholder="e.g. Rangpur Medical College"></div></div>
+        <div><label class="lbl" for="fpdiv">Division</label><select class="field" id="fpdiv"><option value="">All divisions</option></select></div>
+        <div><label class="lbl" for="fpsen">Seniority</label><select class="field" id="fpsen"><option value="">Any</option><option value="prof">Professor</option><option value="assoc">Associate Professor</option><option value="asst">Assistant Professor</option><option value="cons">Consultant</option></select></div>
+        <div style="display:flex;gap:10px"><button class="btn btn-ghost" type="reset" style="flex:1">Clear</button><button class="btn btn-red" type="submit" style="flex:1">Search</button></div>
+      </form>
+      <div class="card" style="background:var(--navy);color:#fff;border-color:var(--navy)">
+        <span class="ic" style="background:rgba(255,255,255,.1);color:var(--coral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg></span>
+        <h3 style="margin:14px 0 8px;font-size:17px">When to see a physiatrist?</h3>
+        <p style="color:#CBD5E1;font-size:14.5px">Persistent back or neck pain, stroke recovery, sports injuries, arthritis, spinal cord injury, cerebral palsy, post-surgery rehabilitation and more.</p>
+      </div>
+    </aside>
+    <div>
+      <p class="count-note" id="fpcount" aria-live="polite"></p>
+      <div id="fpres" style="display:grid;gap:14px"></div>
+      <div class="pager"><button class="btn btn-ghost" id="fpmore" type="button">Show more</button></div>
+    </div>
+  </div>
+</section>
+<style>
+@media (max-width:900px){#fpLayout{grid-template-columns:1fr !important}#fpLayout aside{position:static !important}}
+.pr{display:flex;gap:18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.pr .av{width:64px;height:64px;font-size:20px}
+.pr h3{font-size:16.5px}
+.pr-m{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--muted);margin-top:4px}
+.pr-m span{display:inline-flex;gap:5px;align-items:center}
+.pr-m svg{width:14px;height:14px;color:var(--red)}
+.pr-a{margin-left:auto;display:flex;gap:8px;flex-shrink:0}
+@media (max-width:640px){.pr{flex-wrap:wrap}.pr-a{margin-left:0;width:100%}.pr-a .btn{flex:1}}
+</style>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var all = D.life.concat(D.general).filter(function (m) { return !/^Late\b/i.test(m.n); });
+  var st = { q: B.qs('q'), div: B.qs('div'), sen: '', shown: 15 };
+  var sel = document.getElementById('fpdiv');
+  D.divisions.forEach(function (d) { var o = document.createElement('option'); o.value = o.textContent = d; sel.appendChild(o); });
+  document.getElementById('fpq').value = st.q; sel.value = st.div;
+  var SEN = { prof: /^prof(?!.*(assoc|asst|assist))/i, assoc: /assoc/i, asst: /(asst|assist)\w*\s*prof/i, cons: /consult/i };
+  function render() {
+    var q = st.q.toLowerCase().trim();
+    var L = all.filter(function (m) {
+      return (!st.div || m.v === st.div) && (!q || (m.n + ' ' + m.i + ' ' + m.d).toLowerCase().indexOf(q) > -1) && (!st.sen || SEN[st.sen].test(m.d));
+    });
+    document.getElementById('fpcount').textContent = L.length + ' physiatrist' + (L.length === 1 ? '' : 's') + ' found' + (st.div ? ' in ' + st.div + ' Division' : '');
+    document.getElementById('fpres').innerHTML = L.length ? L.slice(0, st.shown).map(function (m, i) {
+      return '<article class="pr rv" style="transition-delay:' + (i % 15) * 30 + 'ms">' + B.avatar(m.n, m.p) + '<div style="min-width:0"><h3>' + B.esc(m.n) + '</h3>' +
+        '<div class="pr-m">' + (m.d ? '<span>' + B.icon('award') + B.esc(m.d) + '</span>' : '') + (m.i ? '<span>' + B.icon('building') + B.esc(m.i) + '</span>' : '') + (m.v ? '<span>' + B.icon('pin') + B.esc(m.v) + '</span>' : '') + '</div></div>' +
+        '<div class="pr-a"><a class="btn btn-ghost btn-sm" href="contact.html?about=' + encodeURIComponent(m.n) + '">Enquire</a></div></article>';
+    }).join('') : '<div class="empty"><b>No physiatrists match your search</b>Try another division or clear the filters.</div>';
+    document.getElementById('fpmore').style.display = L.length > st.shown ? '' : 'none';
+    B.reveal(document.getElementById('fpres'));
+  }
+  var f = document.getElementById('fpForm');
+  f.onsubmit = function (e) { e.preventDefault(); st.q = document.getElementById('fpq').value; st.div = sel.value; st.sen = document.getElementById('fpsen').value; st.shown = 15; render(); };
+  f.onreset = function () { setTimeout(function () { st = { q: '', div: '', sen: '', shown: 15 }; render(); }); };
+  sel.onchange = document.getElementById('fpsen').onchange = function () { f.onsubmit(new Event('submit')); };
+  document.getElementById('fpmore').onclick = function () { st.shown += 15; render(); };
+  render();
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

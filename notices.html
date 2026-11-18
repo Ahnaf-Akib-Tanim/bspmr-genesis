@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notices — BSPMR</title>
+<meta name="description" content="Official notices from BSPMR — EC election 2026, training programmes and announcements.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="notices">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Notices</span></nav>
+    <h1 class="in2">Notice <em>board</em></h1>
+    <p class="in3">Official announcements, election documents and training opportunities for BSPMR members.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section" style="padding-top:50px">
+  <div class="wrap" style="max-width:980px">
+    <div class="toolbar rv on">
+      <div class="search-field"><label class="sr-only" for="nq">Search notices</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="nq" type="search" placeholder="Search notices"></div>
+      <div class="chips" role="group" aria-label="Notice type" id="ntypes"></div>
+    </div>
+    <p class="count-note" id="ncount" aria-live="polite"></p>
+    <div id="nlist" style="display:grid;gap:14px"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var types = ['All'].concat(Array.from(new Set(D.notices.map(function (n) { return n.type; }))));
+  var st = { q: '', t: 'All' };
+  var tb = document.getElementById('ntypes');
+  tb.innerHTML = types.map(function (t) { return '<button class="chip" type="button" data-t="' + B.esc(t) + '" aria-pressed="' + (t === 'All') + '">' + B.esc(t) + '</button>'; }).join('');
+  function render() {
+    var q = st.q.toLowerCase().trim();
+    var L = D.notices.filter(function (n) { return (st.t === 'All' || n.type === st.t) && (!q || (n.title + ' ' + n.desc).toLowerCase().indexOf(q) > -1); });
+    tb.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.t === st.t); });
+    document.getElementById('ncount').textContent = L.length + ' notice' + (L.length === 1 ? '' : 's');
+    document.getElementById('nlist').innerHTML = L.length ? L.map(function (n) {
+      var d = B.parseD(n.date);
+      return '<article class="rl rv" id="n' + n.id + '" style="grid-template-columns:auto 1fr;gap:18px;align-items:start"><span class="ni-d" style="width:62px;padding:8px 0"><b style="font-size:22px">' + d.getDate() + '</b><small>' + B.MONTHS[d.getMonth()] + ' ' + String(d.getFullYear()).slice(2) + '</small></span>' +
+        '<div style="display:grid;gap:8px;min-width:0"><div><span class="tag ' + (n.type === 'Official Notice' ? 'tag-red' : n.type === 'Training Programs' ? 'tag-green' : '') + '">' + B.esc(n.type) + '</span></div><h3>' + B.esc(n.title) + '</h3>' +
+        '<p class="muted" style="font-size:15px;white-space:pre-line;overflow-wrap:anywhere">' + B.esc(n.desc) + '</p>' +
+        '<div class="rl-acts">' + (n.file ? '<a class="btn btn-navy btn-sm" href="' + B.esc(n.file) + '" target="_blank" rel="noopener">' + B.icon('download') + 'Download attachment</a>' : '') + '<span class="muted" style="font-size:13px;align-self:center">Published ' + B.fmtDate(n.date, true) + '</span></div></div></article>';
+    }).join('') : '<div class="empty"><b>No notices found</b>Try another search term or type.</div>';
+    B.reveal(document.getElementById('nlist'));
+  }
+  tb.onclick = function (e) { var c = e.target.closest('.chip'); if (c) { st.t = c.dataset.t; render(); } };
+  var t; document.getElementById('nq').oninput = function (e) { clearTimeout(t); t = setTimeout(function () { st.q = e.target.value; render(); }, 150); };
+  render();
+  if (location.hash) { var el = document.querySelector(location.hash); if (el) { el.classList.add('on'); el.style.boxShadow = '0 0 0 3px rgba(216,34,42,.35)'; setTimeout(function () { el.scrollIntoView({ block: 'center' }); }, 50); } }
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

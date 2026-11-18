@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery — BSPMR</title>
+<meta name="description" content="Photo gallery of BSPMR conferences, workshops, seminars and community programmes.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="gallery">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="about.html">About</a><span aria-hidden="true">/</span><span>Gallery</span></nav>
+    <h1 class="in2">Moments from <em>BSPMR</em></h1>
+    <p class="in3">Conferences, hands-on workshops, seminars and community programmes from across the society.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="gal rv" id="gal" style="grid-auto-rows:240px"></div>
+    <div class="card rv" style="margin-top:40px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+      <div style="display:flex;gap:16px;align-items:center"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="m10 9.5 5 2.5-5 2.5z"/></svg></span><div><h3>Lectures &amp; webinars</h3><p class="muted">Recorded scientific sessions and webinars are available to members in the member portal.</p></div></div>
+      <a class="btn btn-navy" href="login.html">Watch in member portal</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var G = B.GALLERY, cls = ['w2 h2', '', '', 'w2', 'w2', 'w2', 'w2', 'w2'];
+  var gal = document.getElementById('gal');
+  gal.innerHTML = G.map(function (g, i) { return '<a href="' + g.src + '" class="' + (cls[i] || '') + '" data-i="' + i + '" data-cap="' + B.esc(g.cap) + '"><img src="' + g.src + '" alt="' + B.esc(g.cap) + '" loading="lazy"></a>'; }).join('');
+  gal.addEventListener('click', function (e) { var a = e.target.closest('a'); if (!a) return; e.preventDefault(); B.lightbox(G, +a.dataset.i); });
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

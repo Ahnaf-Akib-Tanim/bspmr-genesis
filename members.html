@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Member Directory — BSPMR</title>
+<meta name="description" content="Directory of BSPMR life members and general members — search by name, institute or division.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="members">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="membership.html">Members</a><span aria-hidden="true">/</span><span>Directory</span></nav>
+    <h1 class="in2">Member <em>directory</em></h1>
+    <p class="in3">Physiatrists and rehabilitation physicians registered with BSPMR across Bangladesh.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section" style="padding-top:50px">
+  <div class="wrap">
+    <div class="toolbar rv on">
+      <div class="chips" role="group" aria-label="Membership type">
+        <button class="chip" type="button" data-type="life" aria-pressed="true">Life members <span id="cLife"></span></button>
+        <button class="chip" type="button" data-type="general" aria-pressed="false">General members <span id="cGen"></span></button>
+      </div>
+      <div class="search-field"><label class="sr-only" for="mq">Search members</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="mq" type="search" placeholder="Search by name, designation or institute"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <label class="sr-only" for="mdiv">Division</label><select class="field" id="mdiv" style="width:auto;min-width:170px"><option value="">All divisions</option></select>
+        <label class="sr-only" for="msort">Sort</label><select class="field" id="msort" style="width:auto"><option value="lm">Sort: LM number</option><option value="name">Sort: Name A–Z</option></select>
+      </div>
+    </div>
+    <p class="count-note" id="mcount" aria-live="polite"></p>
+    <div class="grid g4" id="mgrid"></div>
+    <div class="pager"><button class="btn btn-ghost" id="mmore" type="button">Show more members</button></div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var st = { type: B.qs('type') === 'general' ? 'general' : 'life', q: B.qs('q'), div: B.qs('div'), sort: 'lm', shown: 24 };
+  var grid = document.getElementById('mgrid'), more = document.getElementById('mmore');
+  document.getElementById('cLife').textContent = '(' + D.life.length + ')';
+  document.getElementById('cGen').textContent = '(' + D.general.length + ')';
+  var sel = document.getElementById('mdiv');
+  D.divisions.forEach(function (d) { var o = document.createElement('option'); o.value = o.textContent = d; sel.appendChild(o); });
+  document.getElementById('mq').value = st.q; sel.value = st.div;
+  function list() {
+    var q = st.q.toLowerCase().trim();
+    var L = (st.type === 'life' ? D.life : D.general).filter(function (m) {
+      return (!st.div || m.v === st.div) && (!q || (m.n + ' ' + m.d + ' ' + m.i).toLowerCase().indexOf(q) > -1);
+    });
+    if (st.sort === 'name' || st.type === 'general') L = L.slice().sort(function (a, b) { return a.n.replace(/^(Late\s+)?(Prof(essor)?\.?\s+)?(Dr\.?\s*)?/i, '').localeCompare(b.n.replace(/^(Late\s+)?(Prof(essor)?\.?\s+)?(Dr\.?\s*)?/i, '')); });
+    return L;
+  }
+  function render() {
+    var L = list();
+    document.querySelectorAll('[data-type]').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.type === st.type); });
+    document.getElementById('msort').disabled = st.type === 'general';
+    document.getElementById('mcount').textContent = 'Showing ' + Math.min(st.shown, L.length) + ' of ' + L.length + ' ' + (st.type === 'life' ? 'life' : 'general') + ' members' + (st.div ? ' in ' + st.div + ' Division' : '');
+    grid.innerHTML = L.length ? L.slice(0, st.shown).map(B.memberCard).join('') : '<div class="empty" style="grid-column:1/-1"><b>No members found</b>Try a different name, institute or division.</div>';
+    more.style.display = L.length > st.shown ? '' : 'none';
+    B.reveal(grid);
+  }
+  document.querySelectorAll('[data-type]').forEach(function (c) { c.onclick = function () { st.type = c.dataset.type; st.shown = 24; render(); }; });
+  var t; document.getElementById('mq').oninput = function (e) { clearTimeout(t); t = setTimeout(function () { st.q = e.target.value; st.shown = 24; render(); }, 150); };
+  sel.onchange = function () { st.div = sel.value; st.shown = 24; render(); };
+  document.getElementById('msort').onchange = function (e) { st.sort = e.target.value; render(); };
+  more.onclick = function () { st.shown += 24; render(); };
+  render();
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

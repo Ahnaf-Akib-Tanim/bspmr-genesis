@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events &amp; Workshops — BSPMR</title>
+<meta name="description" content="BSPMR events — national conference, hands-on workshops, CMEs and seminars with online registration.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="events">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Academic</span><span aria-hidden="true">/</span><span>Events</span></nav>
+    <h1 class="in2">Events &amp; <em>workshops</em></h1>
+    <p class="in3">Hands-on workshops, CMEs and our national conference. Register online — seats are limited.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section" style="padding-top:50px">
+  <div class="wrap">
+    <div class="toolbar rv on">
+      <div class="chips" role="group" aria-label="Filter events">
+        <button class="chip" type="button" data-f="upcoming" aria-pressed="true">Upcoming</button>
+        <button class="chip" type="button" data-f="past" aria-pressed="false">Past</button>
+        <button class="chip" type="button" data-f="all" aria-pressed="false">All</button>
+      </div>
+      <div class="chips" role="group" aria-label="Event type">
+        <button class="chip" type="button" data-k="" aria-pressed="true">All types</button>
+        <button class="chip" type="button" data-k="conf" aria-pressed="false">Conference</button>
+        <button class="chip" type="button" data-k="ws" aria-pressed="false">Workshops</button>
+      </div>
+    </div>
+    <p class="count-note" id="ecount" aria-live="polite"></p>
+    <div class="grid g3" id="egrid"></div>
+
+    <div class="grid g2" style="margin-top:56px">
+      <div class="card rv" style="display:flex;gap:18px;align-items:flex-start"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><div><h3>Secure online registration</h3><p class="muted" style="margin-top:6px">Log in with your phone number, choose your workshop and pay by card, bKash or Nagad. Your seat is confirmed instantly by SMS.</p></div></div>
+      <div class="card rv" style="display:flex;gap:18px;align-items:flex-start"><span class="ic ic-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></span><div><h3>Certificates for every participant</h3><p class="muted" style="margin-top:6px">Download your participation certificate from the member portal after the event.</p></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var st = { f: 'upcoming', k: '' };
+  function render() {
+    var L = D.events.filter(function (e) {
+      var p = B.evPast(e);
+      return (st.f === 'all' || (st.f === 'past') === p) && (!st.k || (st.k === 'conf') === B.isConf(e));
+    }).sort(function (a, b) { return (st.f === 'past' ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)) || (B.isConf(b) - B.isConf(a)); });
+    document.querySelectorAll('[data-f]').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.f === st.f); });
+    document.querySelectorAll('[data-k]').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.k === st.k); });
+    document.getElementById('ecount').textContent = L.length + ' event' + (L.length === 1 ? '' : 's');
+    document.getElementById('egrid').innerHTML = L.length ? L.map(B.eventCard).join('') : '<div class="empty" style="grid-column:1/-1"><b>No ' + (st.f === 'all' ? '' : st.f) + ' events</b>Follow our notices for upcoming programmes.</div>';
+    B.reveal(document.getElementById('egrid'));
+  }
+  document.querySelectorAll('[data-f]').forEach(function (c) { c.onclick = function () { st.f = c.dataset.f; render(); }; });
+  document.querySelectorAll('[data-k]').forEach(function (c) { c.onclick = function () { st.k = c.dataset.k; render(); }; });
+  B.bindEventDetails(document.getElementById('egrid'));
+  render();
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>

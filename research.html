@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Published Research — BSPMR</title>
+<meta name="description" content="Verified and published research by BSPMR members in physical medicine and rehabilitation.">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" href="assets/img/bspmr-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="research">
+<div id="site-header"></div>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <nav class="crumbs in1" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Academic</span><span aria-hidden="true">/</span><span>Research</span></nav>
+    <h1 class="in2">Published <em>research</em></h1>
+    <p class="in3">Verified, peer-reviewed research by BSPMR members — explore, read abstracts and access the full papers.</p>
+  </div>
+  <svg class="phero-ecg" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" pathLength="1000" d="M0 40 H300 L318 40 L330 14 L344 56 L358 4 L372 48 L382 40 H760 L778 40 L790 14 L804 56 L818 4 L832 48 L842 40 H1180 L1198 40 L1210 14 L1224 56 L1238 4 L1252 48 L1262 40 H1440" fill="none" stroke="#FF4A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="140 860" style="filter:drop-shadow(0 0 5px rgba(255,74,64,.8))"/></svg>
+</section>
+
+<section class="section" style="padding-top:50px">
+  <div class="wrap">
+    <div class="toolbar rv on">
+      <div class="search-field"><label class="sr-only" for="rq">Search research</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="rq" type="search" placeholder="Search title, author, keyword or journal"></div>
+      <div class="chips" role="group" aria-label="Category" id="rcats"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start" id="rLayout">
+      <div><p class="count-note" id="rcount" aria-live="polite"></p><div id="rlist" style="display:grid;gap:16px"></div></div>
+      <aside style="position:sticky;top:100px;display:grid;gap:18px">
+        <div class="card"><h3 style="font-size:17px;margin-bottom:14px">Top contributors</h3><div id="rtop" style="display:grid;gap:12px"></div></div>
+        <div class="card" style="background:var(--red);color:#fff;border-color:var(--red)"><span class="ic" style="background:rgba(255,255,255,.18);color:#fff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/></svg></span><h3 style="margin:14px 0 8px;font-size:17px">Share your research</h3><p style="color:#FFE1DE;font-size:14.5px">Members can submit published papers for verification and listing.</p><a class="btn btn-white btn-sm" style="margin-top:16px" href="login.html?next=research-submit">Submit research</a></div>
+      </aside>
+    </div>
+  </div>
+</section>
+<style>@media (max-width:980px){#rLayout{grid-template-columns:1fr !important}#rLayout aside{position:static !important}}</style>
+
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var B = BSPMR, D = B.data;
+  var cats = ['All'].concat(Array.from(new Set(D.researches.map(function (r) { return r.cat; }))).sort());
+  var st = { q: '', cat: 'All' };
+  var cbox = document.getElementById('rcats');
+  cbox.innerHTML = cats.map(function (c) { return '<button class="chip" type="button" data-c="' + B.esc(c) + '" aria-pressed="' + (c === 'All') + '">' + B.esc(c) + '</button>'; }).join('');
+  function item(r) {
+    return '<article class="rl rv" id="r' + r.id + '"><div class="rl-tags"><span class="tag tag-red">' + B.esc(r.cat) + '</span>' + r.tags.slice(0, 3).map(function (t) { return '<span class="tag">' + B.esc(t) + '</span>'; }).join('') + '</div>' +
+      '<h3>' + B.esc(r.title) + '</h3>' +
+      '<div class="rl-meta"><span>' + B.icon('user') + B.esc(r.author) + (r.role ? ', ' + B.esc(r.role) : '') + '</span>' + (r.where ? '<span>' + B.icon('journal') + B.esc(r.where) + '</span>' : '') + (r.date ? '<span>' + B.icon('cal') + B.fmtDate(r.date) + '</span>' : '') + '</div>' +
+      (r.abs ? '<details><summary>Read abstract ' + B.icon('down') + '</summary><p>' + B.esc(r.abs) + '</p></details>' : '') +
+      '<div class="rl-acts">' + (r.doi ? '<a class="btn btn-navy btn-sm" href="' + B.esc(r.doi) + '" target="_blank" rel="noopener">View publication ' + B.icon('ext') + '</a>' : '') + (r.file ? '<a class="btn btn-ghost btn-sm" href="' + B.esc(r.file) + '" target="_blank" rel="noopener">' + B.icon('download') + 'Full text</a>' : '') + '</div></article>';
+  }
+  function render() {
+    var q = st.q.toLowerCase().trim();
+    var L = D.researches.filter(function (r) { return (st.cat === 'All' || r.cat === st.cat) && (!q || (r.title + ' ' + r.author + ' ' + r.where + ' ' + r.tags.join(' ') + ' ' + r.abs).toLowerCase().indexOf(q) > -1); });
+    cbox.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.c === st.cat); });
+    document.getElementById('rcount').textContent = L.length + ' published paper' + (L.length === 1 ? '' : 's');
+    document.getElementById('rlist').innerHTML = L.length ? L.map(item).join('') : '<div class="empty"><b>No research found</b>Try another keyword or category.</div>';
+    B.reveal(document.getElementById('rlist'));
+  }
+  cbox.onclick = function (e) { var c = e.target.closest('.chip'); if (c) { st.cat = c.dataset.c; render(); } };
+  var t; document.getElementById('rq').oninput = function (e) { clearTimeout(t); t = setTimeout(function () { st.q = e.target.value; render(); }, 150); };
+  var counts = {}; D.researches.forEach(function (r) { counts[r.author] = (counts[r.author] || 0) + 1; });
+  var roles = {}; D.researches.forEach(function (r) { roles[r.author] = r.role; });
+  document.getElementById('rtop').innerHTML = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 5).map(function (a) {
+    return '<div style="display:flex;gap:10px;align-items:center">' + B.avatar(a) + '<div style="flex:1;min-width:0"><b style="font-size:14px;display:block;line-height:1.25">' + B.esc(a) + '</b><small class="muted">' + B.esc(roles[a] || '') + '</small></div><span class="tag">' + counts[a] + '</span></div>';
+  }).join('');
+  render();
+  if (location.hash) { var el = document.querySelector(location.hash); if (el) { var d = el.querySelector('details'); if (d) d.open = true; el.classList.add('on'); el.style.boxShadow = '0 0 0 3px rgba(216,34,42,.35)'; setTimeout(function () { el.scrollIntoView({ block: 'center' }); }, 50); } }
+
+  B.reveal();
+})();
+</script>
+</body>
+</html>
